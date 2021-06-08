@@ -8,11 +8,11 @@ Citizen.CreateThread(function()
 end)
 
 
-ConfHs0              = {}
-ConfHs0.DrawDistance = 100
-ConfHs0.Size         = {x = 5.0, y = 5.0, z = 1.0}
-ConfHs0.Color        = {r = 255, g = 255, b = 255}
-ConfHs0.Type         = -1
+Config              = {}
+Config.DrawDistance = 100
+Config.Size         = {x = 5.0, y = 5.0, z = 1.0}
+Config.Color        = {r = 255, g = 255, b = 255}
+Config.Type         = -1
 
 local position = {
         {x = -1034.78,   y = -2732.76,  z = 20.17},        
@@ -24,8 +24,8 @@ Citizen.CreateThread(function()
         local coords, letSleep = GetEntityCoords(PlayerPedId()), true
 
         for k in pairs(position) do
-            if (ConfHs0.Type ~= -1 and GetDistanceBetweenCoords(coords, position[k].x, position[k].y, position[k].z, true) < ConfHs0.DrawDistance) then
-                DrawMarker(ConfHs0.Type, position[k].x, position[k].y, position[k].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ConfHs0.Size.x, ConfHs0.Size.y, ConfHs0.Size.z, ConfHs0.Color.r, ConfHs0.Color.g, ConfHs0.Color.b, 100, false, true, 2, false, false, false, false)
+            if (Config.Type ~= -1 and GetDistanceBetweenCoords(coords, position[k].x, position[k].y, position[k].z, true) < Config.DrawDistance) then
+                DrawMarker(Config.Type, position[k].x, position[k].y, position[k].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Config.Size.x, Config.Size.y, Config.Size.z, Config.Color.r, Config.Color.g, Config.Color.b, 100, false, true, 2, false, false, false, false)
                 letSleep = false
             end
         end
@@ -36,7 +36,7 @@ Citizen.CreateThread(function()
     end
 end)
 
-RMenu.Add('location', 'main', RageUI.CreateMenu("~b~Location", "~o~Séléctionne un véhicule"))
+RMenu.Add('location', 'main', RageUI.CreateMenu("~b~Location de véhicule", "~o~Séléctionne un véhicule"))
 
 
 Citizen.CreateThread(function()
@@ -44,26 +44,18 @@ Citizen.CreateThread(function()
 
         RageUI.IsVisible(RMenu:Get('location', 'main'), true, true, true, function()
 
-            RageUI.Button("Scooter", nil, {RightLabel = "~g~300$"},true, function(Hovered, Active, Selected)
-            if (Selected) then   
-                TriggerServerEvent('dobraziil:sundikay', 300)
-                spawnCar("faggio")
-                RageUI.CloseAll()
-            end
-            end)
-
-            RageUI.Button("Blista", nil, {RightLabel = "~g~650$"},true, function(Hovered, Active, Selected)
+            RageUI.Button("~y~Panto", nil, {RightLabel = "~g~350$"},true, function(Hovered, Active, Selected)
             if (Selected) then   
                 TriggerServerEvent('sundikay:vehicule', 650)
-                spawnCar("blista")
+                spawnCar("panto")
                 RageUI.CloseAll()
             end
             end)
 
-                       RageUI.Button("Bmx", nil, {RightLabel = "~g~75$"},true, function(Hovered, Active, Selected)
+                       RageUI.Button("~r~Faggio Sport", nil, {RightLabel = "~g~200$"},true, function(Hovered, Active, Selected)
             if (Selected) then   
                 TriggerServerEvent('sundikay:vehicule', 75)
-                spawnCar("bmx")
+                spawnCar("faggio3")
                 RageUI.CloseAll()
             end
             end)
@@ -114,10 +106,10 @@ function spawnCar(car)
     SetPedIntoVehicle(GetPlayerPed(-1),vehicle,-1) 
 end
 
---------- PED & BLIPS -----------
+------------------------------------------------------------------------------ PED ----------------------------------------------------------------
 
-DecorRegister("Yay", 4)
-pedHash = "s_m_m_security_01"
+DecorRegister("Caui", 4)
+pedHash = "a_m_m_skidrow_01"
 zone = vector3(-1034.49, -2732.1, 19.17)
 Heading = 145.64
 Ped = nil
@@ -126,12 +118,12 @@ HeadingSpawn = 145.64
 Citizen.CreateThread(function()
     LoadModel(pedHash)
     Ped = CreatePed(2, GetHashKey(pedHash), zone, Heading, 0, 0)
-    DecorSetInt(Ped, "Yay", 5431)
+    DecorSetInt(Ped, "Caui", 5431)
     FreezeEntityPosition(Ped, 1)
-    TaskStartScenarioInPlace(Ped, "WORLD_HUMAN_CLIPBOARD", 0, false)
+    TaskStartScenarioInPlace(Ped, "a_m_m_skidrow_01", 0, false)
     SetEntityInvincible(Ped, true)
     SetBlockingOfNonTemporaryEvents(Ped, 1)
-
+---------------------------------------------------------------------------------- Blip --------------------------------------------------------------
     local blip = AddBlipForCoord(zone)
     SetBlipSprite(blip, 464)
     SetBlipScale(blip, 0.7)
